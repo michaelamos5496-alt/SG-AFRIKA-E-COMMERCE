@@ -1,0 +1,224 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <title>Timed Cards Opening</title>
+  <link rel="stylesheet" href="./style.css">
+
+</head>
+
+<body>
+  <div class="indicator"></div>
+
+  <nav>
+    <div>
+      <div class="logo-container">
+        <img src="https://sgafrika.com/wp-content/uploads/2023/09/logo3.png" alt="SG Afrika Farms Logo">
+      </div>
+      <div>SG Afrika Farms</div>
+    </div>
+    <div>
+      <div class="active svg-container" title="Shop" style="cursor: pointer;">
+        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
+          stroke="currentColor">
+          <path stroke-linecap="round" stroke-linejoin="round"
+            d="M13.5 21v-7.5a.75.75 0 01.75-.75h3a.75.75 0 01.75.75V21m-4.5 0H2.36m11.14 0H18m0 0h3.64m-1.39 0V9.349m-16.5 11.65V9.35m0 0a3.001 3.001 0 003.75-.615A2.993 2.993 0 009.75 9.75c.896 0 1.7-.393 2.25-1.016a2.993 2.993 0 002.25 1.016c.896 0 1.7-.393 2.25-1.016a3.001 3.001 0 003.75.614m-16.5 0a3.004 3.004 0 01-.621-4.72L4.318 3.44A1.5 1.5 0 015.378 3h13.243a1.5 1.5 0 011.06.44l1.19 1.189a3 3 0 01-.621 4.72M6.75 18h3.5a.75.75 0 00.75-.75V14.25a.75.75 0 00-.75-.75h-3a.75.75 0 00-.75.75v3a.75.75 0 00.75.75z" />
+        </svg>
+      </div>
+      <div class="cart-icon-nav svg-container" title="Cart" style="cursor: pointer;">
+        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
+          stroke="currentColor">
+          <path stroke-linecap="round" stroke-linejoin="round"
+            d="M15.75 10.5V6a3.75 3.75 0 10-7.5 0v4.5m11.356-1.993l1.263 12c.07.665-.45 1.243-1.119 1.243H4.25a1.125 1.125 0 01-1.12-1.243l1.264-12A1.125 1.125 0 015.513 7.5h12.974c.576 0 1.059.435 1.119 1.007zM8.625 10.5a.375.375 0 11-.75 0 .375.375 0 01.75 0zm7.5 0a.375.375 0 11-.75 0 .375.375 0 01.75 0z" />
+        </svg>
+        <span class="cart-badge">0</span>
+      </div>
+      <div class="svg-container" title="About" style="cursor: pointer;">
+        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
+          stroke="currentColor">
+          <path stroke-linecap="round" stroke-linejoin="round"
+            d="M11.25 11.25l.041-.02a.75.75 0 111.083.985l-.5 1.514-.041.02a.75.75 0 11-1.083-.985l.5-1.514zM12 22.5c5.799 0 10.5-4.701 10.5-10.5S17.799 1.5 12 1.5 1.5 6.201 1.5 12 6.201 22.5 12 22.5z" />
+        </svg>
+      </div>
+      <div class="svg-container" title="Contact" style="cursor: pointer;">
+        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
+          stroke="currentColor">
+          <path stroke-linecap="round" stroke-linejoin="round"
+            d="M21.75 6.75v10.5a2.25 2.25 0 01-2.25 2.25h-15a2.25 2.25 0 01-2.25-2.25V6.75m19.5 0A2.25 2.25 0 0019.5 4.5h-15a2.25 2.25 0 00-2.25 2.25m19.5 0v.243a2.25 2.25 0 01-1.07 1.916l-7.5 4.615a2.25 2.25 0 01-2.36 0L3.32 8.91a2.25 2.25 0 01-1.07-1.916V6.75" />
+        </svg>
+      </div>
+      <div class="svg-container" title="Instagram" style="cursor: pointer;">
+        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
+          stroke="currentColor">
+          <rect width="20" height="20" x="2" y="2" rx="5" ry="5" />
+          <path d="M16 11.37A4 4 0 1112.63 8 4 4 0 0116 11.37zM17.5 6.5h.01" />
+        </svg>
+      </div>
+    </div>
+  </nav>
+
+  <div id="demo"></div>
+
+  <div class="details" id="details-even">
+    <div class="place-box">
+      <div class="text">HERITAGE MEAT</div>
+    </div>
+    <div class="title-box-1">
+      <div class="title-1">BERKSHIRE</div>
+    </div>
+    <div class="title-box-2">
+      <div class="title-2">SHIRE</div>
+    </div>
+    <div class="price-tag">$450 / Piglet</div>
+    <div class="specs-tag">Meat Quality: Exceptional | Temperament: Docile</div>
+    <div class="desc">
+      Renowned for its rich, heavily marbled dark meat that is exceptionally juicy and tender. A premium choice for
+      high-end restaurants and direct-to-consumer sales.
+    </div>
+    <div class="cta">
+      <button class="bookmark">
+        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
+          stroke="currentColor">
+          <path stroke-linecap="round" stroke-linejoin="round"
+            d="M2.25 3h1.386c.51 0 .955.343 1.087.835l.383 1.437M7.5 14.25a3 3 0 00-3 3h15.75m-12.75-3h11.218c1.121-2.3 2.1-4.684 2.924-7.138a60.114 60.114 0 00-16.536-1.84M7.5 14.25L5.106 5.272M6 20.25a.75.75 0 11-1.5 0 .75.75 0 011.5 0zm12.75 0a.75.75 0 11-1.5 0 .75.75 0 011.5 0z" />
+        </svg>
+      </button>
+      <button class="discover">Order Breed</button>
+    </div>
+  </div>
+
+  <div class="details" id="details-odd">
+    <div class="place-box">
+      <div class="text">HERITAGE MEAT</div>
+    </div>
+    <div class="title-box-1">
+      <div class="title-1">BERK</div>
+    </div>
+    <div class="title-box-2">
+      <div class="title-2">SHIRE</div>
+    </div>
+    <div class="price-tag">$450 / Piglet</div>
+    <div class="specs-tag">Meat Quality: Exceptional | Temperament: Docile</div>
+    <div class="desc">
+      Renowned for its rich, heavily marbled dark meat that is exceptionally juicy and tender. A premium choice for
+      high-end restaurants and direct-to-consumer sales.
+    </div>
+    <div class="cta">
+      <button class="bookmark">
+        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
+          stroke="currentColor">
+          <path stroke-linecap="round" stroke-linejoin="round"
+            d="M2.25 3h1.386c.51 0 .955.343 1.087.835l.383 1.437M7.5 14.25a3 3 0 00-3 3h15.75m-12.75-3h11.218c1.121-2.3 2.1-4.684 2.924-7.138a60.114 60.114 0 00-16.536-1.84M7.5 14.25L5.106 5.272M6 20.25a.75.75 0 11-1.5 0 .75.75 0 011.5 0zm12.75 0a.75.75 0 11-1.5 0 .75.75 0 011.5 0z" />
+        </svg>
+      </button>
+      <button class="discover">Order Breed</button>
+    </div>
+  </div>
+
+  <div class="pagination" id="pagination">
+    <div class="arrow arrow-left">
+      <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+        <path stroke-linecap="round" stroke-linejoin="round" d="M15.75 19.5L8.25 12l7.5-7.5" />
+      </svg>
+    </div>
+    <div class="arrow arrow-right">
+      <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+        <path stroke-linecap="round" stroke-linejoin="round" d="M8.25 4.5l7.5 7.5-7.5 7.5" />
+      </svg>
+    </div>
+    <div class="progress-sub-container">
+      <div class="progress-sub-background">
+        <div class="progress-sub-foreground"></div>
+      </div>
+    </div>
+    <div class="slide-numbers" id="slide-numbers"></div>
+  </div>
+
+  <div class="cover"></div>
+
+  <!-- Order Modal Overlay -->
+  <div id="order-modal" class="modal-overlay">
+    <div class="modal-content">
+      <span class="close-modal">&times;</span>
+      <h2 id="modal-title">Order Berkshire Breed</h2>
+      <p id="modal-subtitle">Reserve genetics or request stock from SG Afrika Farms.</p>
+      <form id="order-form">
+        <div class="form-group" id="cart-summary-group"
+          style="display: none; border-bottom: 1px solid rgba(255, 255, 255, 0.1); padding-bottom: 12px; margin-bottom: 16px;">
+          <label>Order Summary</label>
+          <div id="cart-summary-items"
+            style="font-size: 16px; color: #ffffff; font-weight: 500; margin-bottom: 6px; line-height: 1.5;"></div>
+          <div id="cart-summary-total" style="font-size: 18px; font-weight: bold; color: #ffb72b;"></div>
+        </div>
+        <div class="form-group">
+          <label for="order-name">Full Name</label>
+          <input type="text" id="order-name" required placeholder="e.g. John Doe">
+        </div>
+        <div class="form-group">
+          <label for="order-email">Email Address</label>
+          <input type="email" id="order-email" required placeholder="e.g. john@example.com">
+        </div>
+        <div class="form-group">
+          <label for="order-phone">Phone Number</label>
+          <input type="tel" id="order-phone" required placeholder="e.g. +1 234 567 8900">
+        </div>
+        <div class="form-group">
+          <label for="fulfillment-method">Fulfillment Option</label>
+          <select id="fulfillment-method" required>
+            <option value="pickup" style="background: #191919;">Farm Pickup (SG Afrika Farms)</option>
+            <option value="delivery" style="background: #191919;">Delivery (Subject to mileage charges)</option>
+          </select>
+        </div>
+        <div class="form-group" id="delivery-address-group" style="display: none;">
+          <label for="delivery-address">Delivery Address</label>
+          <input type="text" id="delivery-address" placeholder="e.g. 123 Farm Road, Kent">
+        </div>
+        <div class="form-group" id="order-qty-group">
+          <label for="order-qty">Quantity Needed</label>
+          <input type="number" id="order-qty" min="1" max="100" value="5" required>
+        </div>
+        <div class="form-group">
+          <label for="order-notes">Special requests (Breeding Pair, Delivery details, etc.)</label>
+          <textarea id="order-notes" rows="3" placeholder="Describe any specific needs..."></textarea>
+        </div>
+        <button type="submit" class="submit-order-btn">Submit Order Request</button>
+      </form>
+      <div id="order-success" style="display: none;">
+        <div class="success-icon">✓</div>
+        <h3>Order Submitted!</h3>
+        <p>We've received your order request. A genetics specialist from SG Afrika Farms will email you shortly to
+          finalize details.</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- Cart Backdrop Overlay -->
+  <div id="cart-backdrop" class="cart-backdrop"></div>
+
+  <!-- Cart Drawer -->
+  <div id="cart-drawer" class="cart-drawer">
+    <div class="cart-drawer-header">
+      <h2>Genetics Cart</h2>
+      <span class="close-cart-btn">&times;</span>
+    </div>
+    <div class="cart-items-container">
+      <div class="cart-empty-state">Your cart is empty. Add breeds below to start!</div>
+    </div>
+    <div class="cart-drawer-footer">
+      <div class="cart-total-row">
+        <span>Subtotal</span>
+        <span class="cart-total-price">$0.00</span>
+      </div>
+      <button id="checkout-btn" class="checkout-btn" disabled>Checkout / Reserve Genetics</button>
+    </div>
+  </div>
+
+  <!-- Toast Notifications Container -->
+  <div id="toast-container"></div>
+
+  <script src='https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js'></script>
+  <script src="./script.js"></script>
+</body>
+
+</html>
