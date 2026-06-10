@@ -1,224 +1,952 @@
 <!DOCTYPE html>
-<html lang="en">
-
+<html lang="en" class="scroll-smooth">
 <head>
-  <meta charset="UTF-8">
-  <title>Timed Cards Opening</title>
-  <link rel="stylesheet" href="./style.css">
-
+<meta charset="utf-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>SG Afrika Farms | Pure Breed Pigs · Pokrom, Ghana</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700;800&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@24,400,0,0&display=swap" rel="stylesheet"/>
+<script>
+  tailwind.config = {
+    theme: {
+      extend: {
+        colors: {
+          "primary":                "#061b0e",
+          "on-primary":             "#ffffff",
+          "primary-container":      "#1b3022",
+          "on-primary-container":   "#819986",
+          "primary-fixed":          "#d0e9d4",
+          "primary-fixed-dim":      "#b4cdb8",
+          "on-primary-fixed":       "#0b2013",
+          "secondary":              "#805533",
+          "on-secondary":           "#ffffff",
+          "secondary-container":    "#fdc39a",
+          "on-secondary-container": "#794e2e",
+          "secondary-fixed":        "#ffdcc5",
+          "secondary-fixed-dim":    "#f4bb92",
+          "on-secondary-fixed":     "#301400",
+          "tertiary":               "#141817",
+          "on-tertiary":            "#ffffff",
+          "tertiary-container":     "#282d2b",
+          "on-tertiary-container":  "#909492",
+          "background":             "#fcf9f8",
+          "on-background":          "#1c1b1b",
+          "surface":                "#fcf9f8",
+          "on-surface":             "#1c1b1b",
+          "surface-variant":        "#e5e2e1",
+          "on-surface-variant":     "#434843",
+          "surface-container":      "#f0edec",
+          "surface-container-low":  "#f6f3f2",
+          "surface-container-lowest":"#ffffff",
+          "surface-container-high": "#ebe7e7",
+          "surface-container-highest":"#e5e2e1",
+          "surface-dim":            "#dcd9d9",
+          "outline":                "#737973",
+          "outline-variant":        "#c3c8c1",
+        },
+        fontFamily: {
+          "sans":    ["Inter", "sans-serif"],
+          "display": ["Montserrat", "sans-serif"],
+        },
+        spacing: {
+          "xs":  "4px",
+          "sm":  "12px",
+          "md":  "24px",
+          "lg":  "48px",
+          "xl":  "80px",
+          "container-max": "1280px",
+        },
+        fontSize: {
+          "display-lg":        ["48px",  { lineHeight:"56px",  letterSpacing:"-0.02em", fontWeight:"700" }],
+          "headline-lg":       ["32px",  { lineHeight:"40px",  fontWeight:"700" }],
+          "headline-lg-mobile":["28px",  { lineHeight:"36px",  fontWeight:"700" }],
+          "title-md":          ["20px",  { lineHeight:"28px",  fontWeight:"600" }],
+          "body-lg":           ["18px",  { lineHeight:"28px",  fontWeight:"400" }],
+          "body-md":           ["16px",  { lineHeight:"24px",  fontWeight:"400" }],
+          "label-md":          ["14px",  { lineHeight:"20px",  letterSpacing:"0.01em", fontWeight:"600" }],
+          "label-sm":          ["12px",  { lineHeight:"16px",  fontWeight:"500" }],
+        },
+        maxWidth: {
+          "container-max": "1280px",
+        },
+      }
+    }
+  }
+</script>
+<style>
+  .material-symbols-outlined {
+    font-variation-settings:'FILL' 0,'wght' 400,'GRAD' 0,'opsz' 24;
+    display:inline-block; line-height:1; vertical-align:middle;
+  }
+  .glass-card {
+    background:rgba(255,255,255,0.85);
+    backdrop-filter:blur(16px);
+    -webkit-backdrop-filter:blur(16px);
+    border:1px solid rgba(255,255,255,0.4);
+  }
+  .tonal-layer {
+    background-color:#fcf9f8;
+    background-image:radial-gradient(#d0e9d4 0.5px,transparent 0.5px);
+    background-size:24px 24px;
+  }
+  .shadow-soft { box-shadow:0 10px 30px -5px rgba(27,48,34,.08); }
+  .hero-img { animation:heroZoom 14s ease forwards; transform:scale(1.06); }
+  @keyframes heroZoom { to { transform:scale(1); } }
+  /* fade-in observer */
+  .fi { opacity:0; transform:translateY(22px); transition:opacity .7s ease,transform .7s ease; }
+  .fi.in { opacity:1; transform:none; }
+  /* modal */
+  #modal { display:none; }
+  #modal.open { display:flex; }
+  body.modal-open { overflow:hidden; }
+  /* pill active / inactive — referenced by JS so kept here */
+  .pill-on  { background:#061b0e; color:#fff; border-color:#061b0e; }
+  .pill-off { background:#fcf9f8; color:#434843; border-color:#c3c8c1; }
+  .pill-off:hover { border-color:#061b0e; color:#061b0e; }
+  /* cart drawer */
+  #cart-drawer { transform:translateX(100%); transition:transform .35s cubic-bezier(.4,0,.2,1); }
+  #cart-drawer.open { transform:translateX(0); }
+  /* ── mobile typography scale ── */
+  @media (max-width: 639px) {
+    .text-display-lg  { font-size:28px !important; line-height:36px !important; }
+    .text-headline-lg { font-size:22px !important; line-height:30px !important; }
+    .text-title-md    { font-size:17px !important; line-height:24px !important; }
+    .text-body-lg     { font-size:15px !important; line-height:22px !important; }
+    .text-body-md     { font-size:14px !important; line-height:22px !important; }
+    .text-label-md    { font-size:13px !important; }
+    /* compress section vertical spacing */
+    .py-xl { padding-top:48px !important; padding-bottom:48px !important; }
+    /* hero min-height shorter on phones */
+    #home { min-height:75vh !important; }
+  }
+  /* scrollbar hide */
+  .scrollbar-hide::-webkit-scrollbar { display:none; }
+</style>
 </head>
+<body class="bg-background text-on-surface font-sans text-body-md antialiased overflow-x-hidden">
 
-<body>
-  <div class="indicator"></div>
+<!-- ═══════════════ NAV ═══════════════ -->
+<header id="nav" class="sticky top-0 z-50 bg-surface/95 backdrop-blur-md border-b border-outline-variant/60 shadow-sm transition-all duration-300">
+  <div class="flex items-center justify-between px-md py-sm max-w-container-max mx-auto">
+    <a href="#home" class="flex items-center gap-sm">
+      <div class="w-9 h-9 bg-primary rounded-lg flex items-center justify-center flex-shrink-0">
+        <span class="material-symbols-outlined text-on-primary" style="font-size:20px;">agriculture</span>
+      </div>
+      <div>
+        <div class="font-display font-bold text-primary" style="font-size:17px;line-height:1.1;">SG Afrika Farms</div>
+        <div class="text-label-sm text-on-surface-variant" style="line-height:1.1;">Pokrom · Eastern Region</div>
+      </div>
+    </a>
 
-  <nav>
-    <div>
-      <div class="logo-container">
-        <img src="https://sgafrika.com/wp-content/uploads/2023/09/logo3.png" alt="SG Afrika Farms Logo">
-      </div>
-      <div>SG Afrika Farms</div>
-    </div>
-    <div>
-      <div class="active svg-container" title="Shop" style="cursor: pointer;">
-        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
-          stroke="currentColor">
-          <path stroke-linecap="round" stroke-linejoin="round"
-            d="M13.5 21v-7.5a.75.75 0 01.75-.75h3a.75.75 0 01.75.75V21m-4.5 0H2.36m11.14 0H18m0 0h3.64m-1.39 0V9.349m-16.5 11.65V9.35m0 0a3.001 3.001 0 003.75-.615A2.993 2.993 0 009.75 9.75c.896 0 1.7-.393 2.25-1.016a2.993 2.993 0 002.25 1.016c.896 0 1.7-.393 2.25-1.016a3.001 3.001 0 003.75.614m-16.5 0a3.004 3.004 0 01-.621-4.72L4.318 3.44A1.5 1.5 0 015.378 3h13.243a1.5 1.5 0 011.06.44l1.19 1.189a3 3 0 01-.621 4.72M6.75 18h3.5a.75.75 0 00.75-.75V14.25a.75.75 0 00-.75-.75h-3a.75.75 0 00-.75.75v3a.75.75 0 00.75.75z" />
-        </svg>
-      </div>
-      <div class="cart-icon-nav svg-container" title="Cart" style="cursor: pointer;">
-        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
-          stroke="currentColor">
-          <path stroke-linecap="round" stroke-linejoin="round"
-            d="M15.75 10.5V6a3.75 3.75 0 10-7.5 0v4.5m11.356-1.993l1.263 12c.07.665-.45 1.243-1.119 1.243H4.25a1.125 1.125 0 01-1.12-1.243l1.264-12A1.125 1.125 0 015.513 7.5h12.974c.576 0 1.059.435 1.119 1.007zM8.625 10.5a.375.375 0 11-.75 0 .375.375 0 01.75 0zm7.5 0a.375.375 0 11-.75 0 .375.375 0 01.75 0z" />
-        </svg>
-        <span class="cart-badge">0</span>
-      </div>
-      <div class="svg-container" title="About" style="cursor: pointer;">
-        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
-          stroke="currentColor">
-          <path stroke-linecap="round" stroke-linejoin="round"
-            d="M11.25 11.25l.041-.02a.75.75 0 111.083.985l-.5 1.514-.041.02a.75.75 0 11-1.083-.985l.5-1.514zM12 22.5c5.799 0 10.5-4.701 10.5-10.5S17.799 1.5 12 1.5 1.5 6.201 1.5 12 6.201 22.5 12 22.5z" />
-        </svg>
-      </div>
-      <div class="svg-container" title="Contact" style="cursor: pointer;">
-        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
-          stroke="currentColor">
-          <path stroke-linecap="round" stroke-linejoin="round"
-            d="M21.75 6.75v10.5a2.25 2.25 0 01-2.25 2.25h-15a2.25 2.25 0 01-2.25-2.25V6.75m19.5 0A2.25 2.25 0 0019.5 4.5h-15a2.25 2.25 0 00-2.25 2.25m19.5 0v.243a2.25 2.25 0 01-1.07 1.916l-7.5 4.615a2.25 2.25 0 01-2.36 0L3.32 8.91a2.25 2.25 0 01-1.07-1.916V6.75" />
-        </svg>
-      </div>
-      <div class="svg-container" title="Instagram" style="cursor: pointer;">
-        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
-          stroke="currentColor">
-          <rect width="20" height="20" x="2" y="2" rx="5" ry="5" />
-          <path d="M16 11.37A4 4 0 1112.63 8 4 4 0 0116 11.37zM17.5 6.5h.01" />
-        </svg>
-      </div>
-    </div>
-  </nav>
+    <nav class="hidden md:flex items-center gap-md">
+      <a href="#home"    class="text-label-md text-on-surface-variant hover:text-primary transition-colors">Home</a>
+      <a href="#breeds"  class="text-label-md text-on-surface-variant hover:text-primary transition-colors">Breeds</a>
+      <a href="#stock"   class="text-label-md text-on-surface-variant hover:text-primary transition-colors">Stock</a>
+      <a href="#about"   class="text-label-md text-on-surface-variant hover:text-primary transition-colors">About</a>
+      <a href="#contact" class="text-label-md text-on-surface-variant hover:text-primary transition-colors">Contact</a>
+    </nav>
 
-  <div id="demo"></div>
-
-  <div class="details" id="details-even">
-    <div class="place-box">
-      <div class="text">HERITAGE MEAT</div>
-    </div>
-    <div class="title-box-1">
-      <div class="title-1">BERKSHIRE</div>
-    </div>
-    <div class="title-box-2">
-      <div class="title-2">SHIRE</div>
-    </div>
-    <div class="price-tag">$450 / Piglet</div>
-    <div class="specs-tag">Meat Quality: Exceptional | Temperament: Docile</div>
-    <div class="desc">
-      Renowned for its rich, heavily marbled dark meat that is exceptionally juicy and tender. A premium choice for
-      high-end restaurants and direct-to-consumer sales.
-    </div>
-    <div class="cta">
-      <button class="bookmark">
-        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
-          stroke="currentColor">
-          <path stroke-linecap="round" stroke-linejoin="round"
-            d="M2.25 3h1.386c.51 0 .955.343 1.087.835l.383 1.437M7.5 14.25a3 3 0 00-3 3h15.75m-12.75-3h11.218c1.121-2.3 2.1-4.684 2.924-7.138a60.114 60.114 0 00-16.536-1.84M7.5 14.25L5.106 5.272M6 20.25a.75.75 0 11-1.5 0 .75.75 0 011.5 0zm12.75 0a.75.75 0 11-1.5 0 .75.75 0 011.5 0z" />
-        </svg>
+    <div class="flex items-center gap-sm">
+      <a href="#contact" class="hidden md:inline-flex items-center gap-xs px-md py-sm bg-secondary text-on-secondary rounded-lg text-label-md font-display font-semibold hover:brightness-110 active:scale-95 transition-all shadow-sm">
+        Enquire Now
+      </a>
+      <button onclick="openCart()" aria-label="Cart" class="relative p-xs hover:bg-surface-container rounded-lg transition-colors">
+        <span class="material-symbols-outlined text-primary">shopping_cart</span>
+        <span id="cart-count" class="hidden absolute -top-1 -right-1 w-5 h-5 bg-secondary text-on-secondary rounded-full font-bold flex items-center justify-center" style="font-size:10px;">0</span>
       </button>
-      <button class="discover">Order Breed</button>
-    </div>
-  </div>
-
-  <div class="details" id="details-odd">
-    <div class="place-box">
-      <div class="text">HERITAGE MEAT</div>
-    </div>
-    <div class="title-box-1">
-      <div class="title-1">BERK</div>
-    </div>
-    <div class="title-box-2">
-      <div class="title-2">SHIRE</div>
-    </div>
-    <div class="price-tag">$450 / Piglet</div>
-    <div class="specs-tag">Meat Quality: Exceptional | Temperament: Docile</div>
-    <div class="desc">
-      Renowned for its rich, heavily marbled dark meat that is exceptionally juicy and tender. A premium choice for
-      high-end restaurants and direct-to-consumer sales.
-    </div>
-    <div class="cta">
-      <button class="bookmark">
-        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
-          stroke="currentColor">
-          <path stroke-linecap="round" stroke-linejoin="round"
-            d="M2.25 3h1.386c.51 0 .955.343 1.087.835l.383 1.437M7.5 14.25a3 3 0 00-3 3h15.75m-12.75-3h11.218c1.121-2.3 2.1-4.684 2.924-7.138a60.114 60.114 0 00-16.536-1.84M7.5 14.25L5.106 5.272M6 20.25a.75.75 0 11-1.5 0 .75.75 0 011.5 0zm12.75 0a.75.75 0 11-1.5 0 .75.75 0 011.5 0z" />
-        </svg>
+      <button id="burger" onclick="toggleNav()" aria-label="Menu" class="md:hidden p-xs hover:bg-surface-container rounded-lg transition-colors">
+        <span class="material-symbols-outlined text-primary">menu</span>
       </button>
-      <button class="discover">Order Breed</button>
     </div>
   </div>
 
-  <div class="pagination" id="pagination">
-    <div class="arrow arrow-left">
-      <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-        <path stroke-linecap="round" stroke-linejoin="round" d="M15.75 19.5L8.25 12l7.5-7.5" />
-      </svg>
-    </div>
-    <div class="arrow arrow-right">
-      <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-        <path stroke-linecap="round" stroke-linejoin="round" d="M8.25 4.5l7.5 7.5-7.5 7.5" />
-      </svg>
-    </div>
-    <div class="progress-sub-container">
-      <div class="progress-sub-background">
-        <div class="progress-sub-foreground"></div>
+  <div id="navmob" class="hidden md:hidden bg-surface border-t border-outline-variant px-md py-md space-y-xs">
+    <a href="#home"    onclick="closeNav()" class="block py-sm text-label-md text-primary font-semibold border-b border-outline-variant/40">Home</a>
+    <a href="#breeds"  onclick="closeNav()" class="block py-sm text-label-md text-on-surface-variant border-b border-outline-variant/40">Breeds</a>
+    <a href="#stock"   onclick="closeNav()" class="block py-sm text-label-md text-on-surface-variant border-b border-outline-variant/40">Stock</a>
+    <a href="#about"   onclick="closeNav()" class="block py-sm text-label-md text-on-surface-variant border-b border-outline-variant/40">About</a>
+    <a href="#contact" onclick="closeNav()" class="block py-sm text-label-md text-on-surface-variant">Contact</a>
+    <a href="#contact" onclick="closeNav()" class="mt-sm block w-full text-center px-md py-sm bg-secondary text-on-secondary rounded-lg text-label-md font-semibold">Enquire Now</a>
+  </div>
+</header>
+
+<!-- ═══════════════ HERO ═══════════════ -->
+<section id="home" class="relative flex items-center overflow-hidden bg-primary-container" style="min-height:88vh;">
+  <div class="absolute inset-0 z-0">
+    <img class="w-full h-full object-cover opacity-55 mix-blend-overlay hero-img"
+      src="https://images.unsplash.com/photo-1508589938009-83a346342bd6?w=1800&q=85"
+      alt="SG Afrika Farms pigs"/>
+    <div class="absolute inset-0 bg-gradient-to-r from-primary-container/95 via-primary-container/55 to-primary-container/20"></div>
+  </div>
+
+  <div class="relative z-10 max-w-container-max mx-auto px-md w-full py-xl">
+    <div class="max-w-2xl fi in">
+      <div class="inline-flex items-center gap-xs px-sm py-1 bg-primary text-on-primary rounded-full mb-md">
+        <span class="material-symbols-outlined text-on-primary" style="font-size:16px;font-variation-settings:'FILL' 1,'wght' 400,'GRAD' 0,'opsz' 24;">verified</span>
+        <span class="text-label-sm">Pure Breed Only — Zero F1 Crosses</span>
       </div>
-    </div>
-    <div class="slide-numbers" id="slide-numbers"></div>
-  </div>
 
-  <div class="cover"></div>
-
-  <!-- Order Modal Overlay -->
-  <div id="order-modal" class="modal-overlay">
-    <div class="modal-content">
-      <span class="close-modal">&times;</span>
-      <h2 id="modal-title">Order Berkshire Breed</h2>
-      <p id="modal-subtitle">Reserve genetics or request stock from SG Afrika Farms.</p>
-      <form id="order-form">
-        <div class="form-group" id="cart-summary-group"
-          style="display: none; border-bottom: 1px solid rgba(255, 255, 255, 0.1); padding-bottom: 12px; margin-bottom: 16px;">
-          <label>Order Summary</label>
-          <div id="cart-summary-items"
-            style="font-size: 16px; color: #ffffff; font-weight: 500; margin-bottom: 6px; line-height: 1.5;"></div>
-          <div id="cart-summary-total" style="font-size: 18px; font-weight: bold; color: #ffb72b;"></div>
-        </div>
-        <div class="form-group">
-          <label for="order-name">Full Name</label>
-          <input type="text" id="order-name" required placeholder="e.g. John Doe">
-        </div>
-        <div class="form-group">
-          <label for="order-email">Email Address</label>
-          <input type="email" id="order-email" required placeholder="e.g. john@example.com">
-        </div>
-        <div class="form-group">
-          <label for="order-phone">Phone Number</label>
-          <input type="tel" id="order-phone" required placeholder="e.g. +1 234 567 8900">
-        </div>
-        <div class="form-group">
-          <label for="fulfillment-method">Fulfillment Option</label>
-          <select id="fulfillment-method" required>
-            <option value="pickup" style="background: #191919;">Farm Pickup (SG Afrika Farms)</option>
-            <option value="delivery" style="background: #191919;">Delivery (Subject to mileage charges)</option>
-          </select>
-        </div>
-        <div class="form-group" id="delivery-address-group" style="display: none;">
-          <label for="delivery-address">Delivery Address</label>
-          <input type="text" id="delivery-address" placeholder="e.g. 123 Farm Road, Kent">
-        </div>
-        <div class="form-group" id="order-qty-group">
-          <label for="order-qty">Quantity Needed</label>
-          <input type="number" id="order-qty" min="1" max="100" value="5" required>
-        </div>
-        <div class="form-group">
-          <label for="order-notes">Special requests (Breeding Pair, Delivery details, etc.)</label>
-          <textarea id="order-notes" rows="3" placeholder="Describe any specific needs..."></textarea>
-        </div>
-        <button type="submit" class="submit-order-btn">Submit Order Request</button>
-      </form>
-      <div id="order-success" style="display: none;">
-        <div class="success-icon">✓</div>
-        <h3>Order Submitted!</h3>
-        <p>We've received your order request. A genetics specialist from SG Afrika Farms will email you shortly to
-          finalize details.</p>
+      <h1 class="font-display text-display-lg text-white mb-md leading-tight">
+        Ghana's Source for<br/><span class="text-secondary-fixed-dim">Premium Pure Breeds</span>
+      </h1>
+      <p class="text-body-lg text-primary-fixed opacity-90 mb-lg max-w-lg">
+        Large White · Landrace · Duroc · Pietrain — registered pure breed genetics from SamGyi Afrika Farms, Pokrom, Eastern Region.
+      </p>
+      <div class="flex flex-wrap gap-md">
+        <a href="#stock" class="bg-secondary text-on-secondary px-md sm:px-xl py-sm sm:py-md rounded-lg font-display font-semibold text-label-md sm:text-title-md hover:brightness-110 active:scale-95 transition-all shadow-md">
+          Browse Stock
+        </a>
+        <a href="#contact" class="border-2 border-primary-fixed-dim text-white px-md sm:px-xl py-sm sm:py-md rounded-lg font-display font-semibold text-label-md sm:text-title-md hover:bg-white/10 active:scale-95 transition-all">
+          Enquire Now
+        </a>
       </div>
     </div>
   </div>
+</section>
 
-  <!-- Cart Backdrop Overlay -->
-  <div id="cart-backdrop" class="cart-backdrop"></div>
-
-  <!-- Cart Drawer -->
-  <div id="cart-drawer" class="cart-drawer">
-    <div class="cart-drawer-header">
-      <h2>Genetics Cart</h2>
-      <span class="close-cart-btn">&times;</span>
+<!-- ═══════════════ STATS BAR ═══════════════ -->
+<div class="relative z-20 -mt-12 max-w-container-max mx-auto px-md grid grid-cols-2 lg:grid-cols-4 gap-md fi">
+  <div class="glass-card shadow-soft p-sm sm:p-md rounded-xl flex items-center gap-sm sm:gap-md">
+    <div class="w-12 h-12 rounded-lg bg-primary-fixed flex items-center justify-center flex-shrink-0">
+      <span class="material-symbols-outlined text-primary">verified</span>
     </div>
-    <div class="cart-items-container">
-      <div class="cart-empty-state">Your cart is empty. Add breeds below to start!</div>
-    </div>
-    <div class="cart-drawer-footer">
-      <div class="cart-total-row">
-        <span>Subtotal</span>
-        <span class="cart-total-price">$0.00</span>
-      </div>
-      <button id="checkout-btn" class="checkout-btn" disabled>Checkout / Reserve Genetics</button>
+    <div>
+      <div class="font-display font-bold text-primary" style="font-size:clamp(16px,4vw,24px);">6</div>
+      <div class="text-label-sm text-on-surface-variant">Pure Breed Lines</div>
     </div>
   </div>
+  <div class="glass-card shadow-soft p-sm sm:p-md rounded-xl flex items-center gap-sm sm:gap-md">
+    <div class="w-12 h-12 rounded-lg bg-primary-fixed flex items-center justify-center flex-shrink-0">
+      <span class="material-symbols-outlined text-primary">agriculture</span>
+    </div>
+    <div>
+      <div class="font-display font-bold text-primary" style="font-size:clamp(16px,4vw,24px);">100%</div>
+      <div class="text-label-sm text-on-surface-variant">Pedigree Guaranteed</div>
+    </div>
+  </div>
+  <div class="glass-card shadow-soft p-sm sm:p-md rounded-xl flex items-center gap-sm sm:gap-md">
+    <div class="w-12 h-12 rounded-lg bg-primary-fixed flex items-center justify-center flex-shrink-0">
+      <span class="material-symbols-outlined text-primary">location_on</span>
+    </div>
+    <div>
+      <div class="font-display font-bold text-primary" style="font-size:clamp(16px,4vw,24px);">Pokrom</div>
+      <div class="text-label-sm text-on-surface-variant">Eastern Region, Ghana</div>
+    </div>
+  </div>
+  <div class="glass-card shadow-soft p-sm sm:p-md rounded-xl flex items-center gap-sm sm:gap-md">
+    <div class="w-12 h-12 rounded-lg bg-primary-fixed flex items-center justify-center flex-shrink-0">
+      <span class="material-symbols-outlined text-primary">health_and_safety</span>
+    </div>
+    <div>
+      <div class="font-display font-bold text-primary" style="font-size:clamp(16px,4vw,24px);">Vetted</div>
+      <div class="text-label-sm text-on-surface-variant">Health Screened Stock</div>
+    </div>
+  </div>
+</div>
 
-  <!-- Toast Notifications Container -->
-  <div id="toast-container"></div>
+<!-- ═══════════════ BREEDS ═══════════════ -->
+<section id="breeds" class="py-xl max-w-container-max mx-auto px-md">
+  <div class="flex justify-between items-end mb-lg fi">
+    <div>
+      <h2 class="font-display text-headline-lg text-primary mb-xs">Our Six Breeds</h2>
+      <p class="text-body-md text-on-surface-variant">Registered genetics across Ghana's most productive swine lines.</p>
+    </div>
+    <a href="#stock" class="hidden md:flex items-center gap-xs text-secondary text-label-md hover:gap-sm transition-all duration-200">
+      View All Stock <span class="material-symbols-outlined">arrow_forward</span>
+    </a>
+  </div>
 
-  <script src='https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js'></script>
-  <script src="./script.js"></script>
+  <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-md">
+    <div class="group relative overflow-hidden rounded-xl cursor-pointer active:scale-[0.98] transition-transform fi" style="height:320px;" onclick="filterBreed('lw')">
+      <img class="absolute inset-0 w-full h-full object-cover transition-transform duration-500 group-hover:scale-110"
+        src="https://images.unsplash.com/photo-1508589938009-83a346342bd6?w=600&q=85" alt="Large White"/>
+      <div class="absolute inset-0 bg-gradient-to-t from-primary via-primary/10 to-transparent opacity-85"></div>
+      <div class="absolute bottom-0 left-0 p-md">
+        <h3 class="font-display text-headline-lg text-white mb-xs">Large White</h3>
+        <p class="text-white/75 text-label-sm">Maternal Excellence · Prolific</p>
+      </div>
+    </div>
+    <div class="group relative overflow-hidden rounded-xl cursor-pointer active:scale-[0.98] transition-transform fi" style="height:320px;" onclick="filterBreed('landrace')">
+      <img class="absolute inset-0 w-full h-full object-cover transition-transform duration-500 group-hover:scale-110"
+        src="https://images.unsplash.com/photo-1646217325421-ccdbc63fbf09?w=600&q=85" alt="Landrace"/>
+      <div class="absolute inset-0 bg-gradient-to-t from-primary via-primary/10 to-transparent opacity-85"></div>
+      <div class="absolute bottom-0 left-0 p-md">
+        <h3 class="font-display text-headline-lg text-white mb-xs">Landrace</h3>
+        <p class="text-white/75 text-label-sm">Champion Litter Size · Long Frame</p>
+      </div>
+    </div>
+    <div class="group relative overflow-hidden rounded-xl cursor-pointer active:scale-[0.98] transition-transform fi" style="height:320px;" onclick="filterBreed('duroc')">
+      <img class="absolute inset-0 w-full h-full object-cover transition-transform duration-500 group-hover:scale-110"
+        src="https://images.unsplash.com/photo-1759015541478-34740af4bb90?w=600&q=85" alt="Duroc"/>
+      <div class="absolute inset-0 bg-gradient-to-t from-primary via-primary/10 to-transparent opacity-85"></div>
+      <div class="absolute bottom-0 left-0 p-md">
+        <h3 class="font-display text-headline-lg text-white mb-xs">Duroc</h3>
+        <p class="text-white/75 text-label-sm">Premium Pork Quality · Fast Growth</p>
+      </div>
+    </div>
+    <div class="group relative overflow-hidden rounded-xl cursor-pointer active:scale-[0.98] transition-transform fi" style="height:320px;" onclick="filterBreed('pietrain')">
+      <img class="absolute inset-0 w-full h-full object-cover transition-transform duration-500 group-hover:scale-110"
+        src="https://images.unsplash.com/photo-1672937161235-c3a4ecb3d8fe?w=600&q=85" alt="Pietrain"/>
+      <div class="absolute inset-0 bg-gradient-to-t from-primary via-primary/10 to-transparent opacity-85"></div>
+      <div class="absolute bottom-0 left-0 p-md">
+        <h3 class="font-display text-headline-lg text-white mb-xs">Pietrain</h3>
+        <p class="text-white/75 text-label-sm">Maximum Muscularity · Terminal Sire</p>
+      </div>
+    </div>
+    <div class="group relative overflow-hidden rounded-xl cursor-pointer active:scale-[0.98] transition-transform fi" style="height:320px;" onclick="filterBreed('berkshire')">
+      <img class="absolute inset-0 w-full h-full object-cover transition-transform duration-500 group-hover:scale-110"
+        src="https://images.unsplash.com/photo-1598535177090-b9517bf8ed12?w=600&q=85" alt="Berkshire"/>
+      <div class="absolute inset-0 bg-gradient-to-t from-primary via-primary/10 to-transparent opacity-85"></div>
+      <div class="absolute bottom-0 left-0 p-md">
+        <h3 class="font-display text-headline-lg text-white mb-xs">Berkshire</h3>
+        <p class="text-white/75 text-label-sm">Heritage Quality · Premium Marbling</p>
+      </div>
+    </div>
+    <div class="group relative overflow-hidden rounded-xl cursor-pointer active:scale-[0.98] transition-transform fi" style="height:320px;" onclick="filterBreed('sg11')">
+      <img class="absolute inset-0 w-full h-full object-cover transition-transform duration-500 group-hover:scale-110"
+        src="https://images.unsplash.com/photo-1516467508483-a7212febe31a?w=600&q=85" alt="SG-11"/>
+      <div class="absolute inset-0 bg-gradient-to-t from-primary via-primary/10 to-transparent opacity-85"></div>
+      <div class="absolute bottom-0 left-0 p-md">
+        <h3 class="font-display text-headline-lg text-white mb-xs">SG-11</h3>
+        <p class="text-white/75 text-label-sm">SG Afrika Proprietary Line</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════════ STOCK ═══════════════ -->
+<section id="stock" class="py-xl bg-surface-container-low">
+  <div class="max-w-container-max mx-auto px-md">
+    <div class="mb-lg fi">
+      <h2 class="font-display text-headline-lg text-primary mb-xs">Available Stock</h2>
+      <p class="text-body-md text-on-surface-variant">High-health pure breed animals ready for your farm.</p>
+    </div>
+
+    <div id="filters" class="flex flex-wrap gap-sm mb-lg fi">
+      <button class="fpill on" data-f="all">All</button>
+      <button class="fpill" data-f="lw">Large White</button>
+      <button class="fpill" data-f="landrace">Landrace</button>
+      <button class="fpill" data-f="duroc">Duroc</button>
+      <button class="fpill" data-f="pietrain">Pietrain</button>
+      <button class="fpill" data-f="berkshire">Berkshire</button>
+      <button class="fpill" data-f="sg11">SG-11</button>
+    </div>
+
+    <div id="sgrid" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-md"></div>
+  </div>
+</section>
+
+<!-- ═══════════════ ABOUT ═══════════════ -->
+<section id="about" class="py-xl tonal-layer overflow-hidden">
+  <div class="max-w-container-max mx-auto px-md">
+    <div class="grid grid-cols-1 lg:grid-cols-2 gap-xl items-center">
+
+      <div class="relative fi">
+        <div class="absolute -top-10 -left-10 w-40 h-40 bg-primary-fixed rounded-full blur-3xl opacity-50 pointer-events-none"></div>
+        <div class="relative z-10 glass-card p-md sm:p-xl rounded-2xl shadow-soft">
+          <h2 class="font-display text-headline-lg text-primary mb-md">Why SG Afrika Farms</h2>
+          <p class="text-body-lg text-on-surface-variant mb-lg">
+            We raise only registered pure breeds — no F1 hybrids, no crosses. Every animal leaves our farm with full breed documentation and a health clearance.
+          </p>
+          <ul class="space-y-md">
+            <li class="flex gap-md">
+              <div class="flex-shrink-0 w-8 h-8 rounded-full bg-primary text-on-primary flex items-center justify-center">
+                <span class="material-symbols-outlined" style="font-size:18px;">verified</span>
+              </div>
+              <div>
+                <h4 class="font-display font-semibold text-title-md text-primary">Pure Breed Integrity</h4>
+                <p class="text-body-md text-on-surface-variant">Zero F1 hybrids. All four lines maintained as registered pure breeds.</p>
+              </div>
+            </li>
+            <li class="flex gap-md">
+              <div class="flex-shrink-0 w-8 h-8 rounded-full bg-primary text-on-primary flex items-center justify-center">
+                <span class="material-symbols-outlined" style="font-size:18px;">health_and_safety</span>
+              </div>
+              <div>
+                <h4 class="font-display font-semibold text-title-md text-primary">Health Screened</h4>
+                <p class="text-body-md text-on-surface-variant">All animals are vaccinated and health-screened before leaving the farm.</p>
+              </div>
+            </li>
+            <li class="flex gap-md">
+              <div class="flex-shrink-0 w-8 h-8 rounded-full bg-primary text-on-primary flex items-center justify-center">
+                <span class="material-symbols-outlined" style="font-size:18px;">support_agent</span>
+              </div>
+              <div>
+                <h4 class="font-display font-semibold text-title-md text-primary">After-Sale Support</h4>
+                <p class="text-body-md text-on-surface-variant">Guidance on housing, nutrition, and management provided after every sale.</p>
+              </div>
+            </li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="relative hidden lg:block fi" style="height:520px;">
+        <img class="w-full h-full object-cover rounded-2xl shadow-xl"
+          src="https://images.unsplash.com/photo-1646217325421-ccdbc63fbf09?w=900&q=85"
+          alt="SG Afrika Farms"/>
+        <div class="absolute -bottom-6 -right-6 glass-card p-md rounded-xl shadow-soft border-2 border-primary-fixed">
+          <div class="font-display font-bold text-primary" style="font-size:28px;">Pokrom</div>
+          <div class="text-on-surface-variant text-label-md">Eastern Region, Ghana</div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════════ CONTACT ═══════════════ -->
+<section id="contact" class="py-xl">
+  <div class="max-w-container-max mx-auto px-md">
+    <div class="bg-primary rounded-3xl overflow-hidden fi">
+      <div class="grid grid-cols-1 lg:grid-cols-2">
+
+        <!-- Left: Info -->
+        <div class="p-md sm:p-xl relative overflow-hidden">
+          <div class="absolute inset-0 opacity-10 pointer-events-none" style="background:radial-gradient(circle at top left,white,transparent 70%);"></div>
+          <div class="relative z-10">
+            <h2 class="font-display text-display-lg text-white mb-md leading-tight">Get in Touch</h2>
+            <p class="text-body-lg text-primary-fixed opacity-90 mb-xl max-w-sm">
+              Interested in our stock? Reach out directly — we respond within 24 hours.
+            </p>
+            <div class="space-y-md">
+              <div class="flex items-start gap-md">
+                <div class="w-10 h-10 rounded-lg bg-primary-container flex items-center justify-center flex-shrink-0 mt-0.5">
+                  <span class="material-symbols-outlined text-primary-fixed-dim" style="font-size:20px;">mail</span>
+                </div>
+                <div>
+                  <div class="text-label-sm text-primary-fixed opacity-60 mb-xs uppercase tracking-wider">Email</div>
+                  <a href="mailto:samgyiafrikafarms@gmail.com" class="text-body-md text-white hover:text-secondary-fixed-dim transition-colors">samgyiafrikafarms@gmail.com</a>
+                </div>
+              </div>
+              <div class="flex items-start gap-md">
+                <div class="w-10 h-10 rounded-lg bg-primary-container flex items-center justify-center flex-shrink-0 mt-0.5">
+                  <span class="material-symbols-outlined text-primary-fixed-dim" style="font-size:20px;">phone</span>
+                </div>
+                <div>
+                  <div class="text-label-sm text-primary-fixed opacity-60 mb-xs uppercase tracking-wider">Phone / WhatsApp</div>
+                  <a href="tel:+233202469191" class="block text-body-md text-white hover:text-secondary-fixed-dim transition-colors">+233 20 246 9191</a>
+                  <a href="tel:+233552525442" class="block text-body-md text-white hover:text-secondary-fixed-dim transition-colors">+233 55 252 5442</a>
+                </div>
+              </div>
+              <div class="flex items-start gap-md">
+                <div class="w-10 h-10 rounded-lg bg-primary-container flex items-center justify-center flex-shrink-0 mt-0.5">
+                  <span class="material-symbols-outlined text-primary-fixed-dim" style="font-size:20px;">location_on</span>
+                </div>
+                <div>
+                  <div class="text-label-sm text-primary-fixed opacity-60 mb-xs uppercase tracking-wider">Location</div>
+                  <div class="text-body-md text-white">Pokrom, Eastern Region, Ghana</div>
+                </div>
+              </div>
+              <div class="flex items-start gap-md">
+                <div class="w-10 h-10 rounded-lg bg-primary-container flex items-center justify-center flex-shrink-0 mt-0.5">
+                  <span class="material-symbols-outlined text-primary-fixed-dim" style="font-size:20px;">photo_camera</span>
+                </div>
+                <div>
+                  <div class="text-label-sm text-primary-fixed opacity-60 mb-xs uppercase tracking-wider">Instagram</div>
+                  <a href="https://instagram.com/sgafrika" target="_blank" rel="noopener" class="text-body-md text-white hover:text-secondary-fixed-dim transition-colors">@sgafrika</a>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Right: Form -->
+        <div class="bg-surface p-md sm:p-xl">
+          <h3 class="font-display text-headline-lg text-primary mb-lg">Enquiry Form</h3>
+          <form id="cform" action="https://formspree.io/f/YOUR_FORM_ID" method="POST" onsubmit="sendForm(event)" class="space-y-md">
+            <div class="grid grid-cols-1 sm:grid-cols-2 gap-md">
+              <div>
+                <label class="block text-label-md text-on-surface-variant mb-xs">Name</label>
+                <input type="text" name="name" required placeholder="Your full name"
+                  class="w-full px-md py-sm bg-surface-container-low border border-outline-variant rounded-lg text-body-md text-on-surface focus:outline-none focus:border-primary focus:ring-1 focus:ring-primary transition-colors appearance-none"/>
+              </div>
+              <div>
+                <label class="block text-label-md text-on-surface-variant mb-xs">Phone / WhatsApp</label>
+                <input type="tel" name="phone" placeholder="+233 …"
+                  class="w-full px-md py-sm bg-surface-container-low border border-outline-variant rounded-lg text-body-md text-on-surface focus:outline-none focus:border-primary focus:ring-1 focus:ring-primary transition-colors appearance-none"/>
+              </div>
+            </div>
+            <div>
+              <label class="block text-label-md text-on-surface-variant mb-xs">Email</label>
+              <input type="email" name="email" required placeholder="your@email.com"
+                class="w-full px-md py-sm bg-surface-container-low border border-outline-variant rounded-lg text-body-md text-on-surface focus:outline-none focus:border-primary focus:ring-1 focus:ring-primary transition-colors appearance-none"/>
+            </div>
+            <div>
+              <label class="block text-label-md text-on-surface-variant mb-xs">I'm interested in</label>
+              <select id="cint" name="interest"
+                class="w-full px-md py-sm bg-surface-container-low border border-outline-variant rounded-lg text-body-md text-on-surface focus:outline-none focus:border-primary focus:ring-1 focus:ring-primary transition-colors appearance-none">
+                <option value="">Select breed…</option>
+                <option value="Large White">Large White</option>
+                <option value="Landrace">Landrace</option>
+                <option value="Duroc">Duroc</option>
+                <option value="Pietrain">Pietrain</option>
+                <option value="Berkshire">Berkshire</option>
+                <option value="SG-11">SG-11</option>
+                <option value="General Enquiry">General Enquiry</option>
+              </select>
+            </div>
+            <div>
+              <label class="block text-label-md text-on-surface-variant mb-xs">Message</label>
+              <textarea name="message" rows="4" placeholder="Tell us what you're looking for…"
+                class="w-full px-md py-sm bg-surface-container-low border border-outline-variant rounded-lg text-body-md text-on-surface focus:outline-none focus:border-primary focus:ring-1 focus:ring-primary transition-colors resize-none"></textarea>
+            </div>
+            <button id="csub" type="submit"
+              class="w-full py-md bg-primary text-on-primary rounded-lg font-display font-semibold text-title-md hover:bg-primary/90 active:scale-[0.98] transition-all shadow-md">
+              Send Enquiry
+            </button>
+          </form>
+          <div id="fthanks" class="hidden text-center py-xl">
+            <span class="material-symbols-outlined text-primary mb-md block" style="font-size:48px;font-variation-settings:'FILL' 1,'wght' 400,'GRAD' 0,'opsz' 48;">check_circle</span>
+            <h4 class="font-display text-headline-lg text-primary mb-sm">Message Received</h4>
+            <p class="text-body-md text-on-surface-variant">We'll get back to you within 24 hours.</p>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════════ FOOTER ═══════════════ -->
+<footer class="bg-tertiary text-on-tertiary py-xl">
+  <div class="max-w-container-max mx-auto px-md grid grid-cols-1 md:grid-cols-4 gap-md">
+    <div class="md:col-span-1">
+      <div class="flex items-center gap-sm mb-md">
+        <div class="w-8 h-8 bg-primary-container rounded-lg flex items-center justify-center">
+          <span class="material-symbols-outlined text-primary-fixed-dim" style="font-size:18px;">agriculture</span>
+        </div>
+        <span class="font-display font-bold text-on-tertiary" style="font-size:17px;">SG Afrika Farms</span>
+      </div>
+      <p class="text-on-tertiary-container text-label-sm leading-relaxed">
+        Pure breed pig genetics from Pokrom, Eastern Region, Ghana. Large White · Landrace · Duroc · Pietrain.
+      </p>
+    </div>
+    <div class="flex flex-col gap-sm">
+      <h5 class="font-display font-semibold text-on-tertiary text-label-md mb-xs">Farm</h5>
+      <a href="#home"    class="text-on-tertiary-container hover:text-on-tertiary text-label-sm transition-colors">Home</a>
+      <a href="#breeds"  class="text-on-tertiary-container hover:text-on-tertiary text-label-sm transition-colors">Our Breeds</a>
+      <a href="#stock"   class="text-on-tertiary-container hover:text-on-tertiary text-label-sm transition-colors">Available Stock</a>
+      <a href="#about"   class="text-on-tertiary-container hover:text-on-tertiary text-label-sm transition-colors">About</a>
+    </div>
+    <div class="flex flex-col gap-sm">
+      <h5 class="font-display font-semibold text-on-tertiary text-label-md mb-xs">Contact</h5>
+      <a href="mailto:samgyiafrikafarms@gmail.com" class="text-on-tertiary-container hover:text-on-tertiary text-label-sm transition-colors break-all">samgyiafrikafarms@gmail.com</a>
+      <a href="tel:+233202469191" class="text-on-tertiary-container hover:text-on-tertiary text-label-sm transition-colors">+233 20 246 9191</a>
+      <a href="tel:+233552525442" class="text-on-tertiary-container hover:text-on-tertiary text-label-sm transition-colors">+233 55 252 5442</a>
+      <a href="https://instagram.com/sgafrika" target="_blank" rel="noopener" class="text-on-tertiary-container hover:text-on-tertiary text-label-sm transition-colors">@sgafrika</a>
+    </div>
+    <div class="flex flex-col gap-sm">
+      <h5 class="font-display font-semibold text-on-tertiary text-label-md mb-xs">Breeds</h5>
+      <span class="text-on-tertiary-container text-label-sm">Large White</span>
+      <span class="text-on-tertiary-container text-label-sm">Landrace</span>
+      <span class="text-on-tertiary-container text-label-sm">Duroc</span>
+      <span class="text-on-tertiary-container text-label-sm">Pietrain</span>
+      <span class="text-on-tertiary-container text-label-sm">Berkshire</span>
+      <span class="text-on-tertiary-container text-label-sm">SG-11</span>
+    </div>
+  </div>
+  <div class="max-w-container-max mx-auto px-md mt-xl pt-md border-t border-white/5 flex flex-col md:flex-row justify-between items-center gap-md">
+    <span id="fyr" class="text-on-tertiary-container text-label-sm"></span>
+    <div class="flex gap-md">
+      <a href="mailto:samgyiafrikafarms@gmail.com" class="text-on-tertiary-container hover:text-on-tertiary transition-colors" aria-label="Email">
+        <span class="material-symbols-outlined">mail</span>
+      </a>
+      <a href="tel:+233202469191" class="text-on-tertiary-container hover:text-on-tertiary transition-colors" aria-label="Call">
+        <span class="material-symbols-outlined">phone</span>
+      </a>
+      <a href="https://instagram.com/sgafrika" target="_blank" rel="noopener" class="text-on-tertiary-container hover:text-on-tertiary transition-colors" aria-label="Instagram">
+        <span class="material-symbols-outlined">photo_camera</span>
+      </a>
+    </div>
+  </div>
+</footer>
+
+<!-- ═══════════════ CART DRAWER ═══════════════ -->
+<div id="cart-overlay" class="fixed inset-0 z-50 bg-black/50 hidden" onclick="closeCart()"></div>
+<div id="cart-drawer" class="fixed top-0 right-0 h-full z-50 bg-surface shadow-2xl flex flex-col" style="width:min(420px,100vw);">
+  <div class="flex items-center justify-between px-md py-sm border-b border-outline-variant flex-shrink-0">
+    <div class="flex items-center gap-sm">
+      <span class="material-symbols-outlined text-primary">shopping_cart</span>
+      <h3 class="font-display font-bold text-primary" style="font-size:20px;">Your Selection</h3>
+    </div>
+    <button onclick="closeCart()" class="w-9 h-9 flex items-center justify-center hover:bg-surface-container rounded-lg transition-colors">
+      <span class="material-symbols-outlined text-on-surface-variant">close</span>
+    </button>
+  </div>
+
+  <div id="cart-items" class="flex-1 overflow-y-auto p-md space-y-md scrollbar-hide"></div>
+
+  <div class="flex-shrink-0 border-t border-outline-variant p-md space-y-md">
+    <div class="flex justify-between items-center">
+      <span class="text-label-md text-on-surface-variant">Estimated Total</span>
+      <span id="cart-total" class="font-display font-bold text-primary" style="font-size:22px;">GHS 0</span>
+    </div>
+    <button onclick="enquireCart()"
+      class="w-full py-md bg-secondary text-on-secondary rounded-lg font-display font-semibold text-title-md hover:brightness-110 active:scale-[0.98] transition-all shadow-md flex items-center justify-center gap-sm">
+      <span class="material-symbols-outlined">mail</span>
+      Send Enquiry for All
+    </button>
+    <p class="text-label-sm text-on-surface-variant text-center">We'll confirm availability and pricing within 24 hours.</p>
+  </div>
+</div>
+
+<!-- ═══════════════ ANIMAL DETAIL MODAL ═══════════════ -->
+<div id="modal" class="fixed inset-0 z-50 items-center justify-center p-md bg-black/60 backdrop-blur-sm" onclick="closeModal(event)">
+  <div id="modal-inner" class="bg-surface rounded-2xl shadow-2xl max-w-2xl w-full overflow-y-auto scrollbar-hide" style="max-height:90vh;" onclick="event.stopPropagation()">
+    <div class="relative">
+      <img id="modal-img" class="w-full object-cover rounded-t-2xl" style="height:260px;" src="" alt=""/>
+      <div id="modal-badges" class="absolute top-md left-md flex gap-sm flex-wrap"></div>
+      <button onclick="closeModal()" class="absolute top-md right-md w-10 h-10 bg-surface/90 backdrop-blur rounded-full flex items-center justify-center hover:bg-surface shadow-md transition-colors">
+        <span class="material-symbols-outlined text-on-surface">close</span>
+      </button>
+    </div>
+    <div class="p-md sm:p-xl">
+      <div class="flex justify-between items-start mb-md gap-md">
+        <div>
+          <div id="modal-breed" class="text-label-md text-secondary font-semibold mb-xs uppercase tracking-wider"></div>
+          <h2 id="modal-name" class="font-display text-headline-lg text-primary"></h2>
+        </div>
+        <div id="modal-price" class="font-display font-bold text-primary text-right flex-shrink-0" style="font-size:clamp(18px,4vw,26px);"></div>
+      </div>
+      <div class="grid grid-cols-3 gap-sm sm:gap-md mb-lg">
+        <div class="bg-surface-container p-sm sm:p-md rounded-lg">
+          <p class="text-label-sm text-on-surface-variant uppercase tracking-wider mb-xs">Age</p>
+          <p id="modal-sex" class="font-display font-semibold text-label-md sm:text-title-md text-primary"></p>
+        </div>
+        <div class="bg-surface-container p-sm sm:p-md rounded-lg">
+          <p class="text-label-sm text-on-surface-variant uppercase tracking-wider mb-xs">Weight</p>
+          <p id="modal-age" class="font-display font-semibold text-label-md sm:text-title-md text-primary"></p>
+        </div>
+        <div class="bg-surface-container p-sm sm:p-md rounded-lg">
+          <p class="text-label-sm text-on-surface-variant uppercase tracking-wider mb-xs">Status</p>
+          <p id="modal-wt" class="font-display font-semibold text-label-md sm:text-title-md text-primary"></p>
+        </div>
+      </div>
+      <p id="modal-desc" class="text-body-md text-on-surface-variant mb-lg"></p>
+      <div class="flex flex-col sm:flex-row gap-md">
+        <button id="modal-cart"
+          class="flex-1 py-md bg-primary text-on-primary rounded-lg font-display font-semibold text-title-md hover:bg-primary/90 active:scale-[0.98] transition-all shadow-md flex items-center justify-center gap-sm">
+          <span class="material-symbols-outlined">add_shopping_cart</span>
+          Add to Cart
+        </button>
+        <button id="modal-enquire"
+          class="flex-1 py-md border-2 border-secondary text-secondary rounded-lg font-display font-semibold text-title-md hover:bg-secondary-fixed/30 active:scale-[0.98] transition-all flex items-center justify-center gap-sm">
+          <span class="material-symbols-outlined">mail</span>
+          Enquire
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+/* ── stock ── */
+const STOCK = [
+  {id:1, breed:'Large White', bKey:'lw', age:'18 mo', wt:'210 kg', price:'GHS 14,000', status:'avail',
+   desc:'From our top sire line. Excellent conformation, calm temperament, proven fertility. Ideal for establishing or refreshing a commercial sow herd.',
+   img:'https://images.unsplash.com/photo-1508589938009-83a346342bd6?w=600&q=80',
+   tags:['Vaccinated','Foundation Line']},
+  {id:2, breed:'Duroc', bKey:'duroc', age:'14 mo', wt:'165 kg', price:'GHS 16,000', status:'avail',
+   desc:'Pure Duroc from our registered herd. Progeny grade consistently for premium marbling — the choice for high-value pork programmes.',
+   img:'https://images.unsplash.com/photo-1759015541478-34740af4bb90?w=600&q=80',
+   tags:['Vaccinated','Terminal Sire']},
+  {id:3, breed:'Landrace', bKey:'landrace', age:'6 mo', wt:'74 kg', price:'GHS 6,000', status:'avail',
+   desc:'Pure Landrace from our registered maternal herd. Long body, 16 teats, dam producing 13+ pigs per litter consistently.',
+   img:'https://images.unsplash.com/photo-1646217325421-ccdbc63fbf09?w=600&q=80',
+   tags:['16 Teats','Maternal Line']},
+  {id:4, breed:'Pietrain', bKey:'pietrain', age:'12 mo', wt:'155 kg', price:'GHS 17,500', status:'avail',
+   desc:'Pure Pietrain from our registered herd. Extreme muscularity, exceptional loin depth, minimum backfat. Health-tested and fully vaccinated.',
+   img:'https://images.unsplash.com/photo-1672937161235-c3a4ecb3d8fe?w=600&q=80',
+   tags:['Vaccinated','Health Tested']},
+  {id:5, breed:'Berkshire', bKey:'berkshire', age:'10 mo', wt:'120 kg', price:'GHS 13,500', status:'avail',
+   desc:'Heritage Berkshire from our registered herd. Distinctive dark coat with white points. Renowned for exceptional pork quality and marbling.',
+   img:'https://images.unsplash.com/photo-1598535177090-b9517bf8ed12?w=600&q=80',
+   tags:['Vaccinated','Heritage Breed']},
+  {id:6, breed:'SG-11', bKey:'sg11', age:'9 mo', wt:'105 kg', price:'GHS 11,000', status:'avail',
+   desc:'SG Afrika\'s proprietary line, developed and maintained on-farm. Selected for adaptability to local conditions, robust growth, and feed efficiency.',
+   img:'https://images.unsplash.com/photo-1516467508483-a7212febe31a?w=600&q=80',
+   tags:['Proprietary Line','Local Adapted']},
+];
+
+let af = 'all';
+
+/* ── cart ── */
+let cart = (() => {
+  try {
+    const raw = JSON.parse(localStorage.getItem('sga-cart') || '[]');
+    if (raw.length && typeof raw[0] !== 'object') return [];
+    return raw;
+  } catch { return []; }
+})();
+
+function saveCart()     { localStorage.setItem('sga-cart', JSON.stringify(cart)); }
+function cartItem(id)   { return cart.find(c => c.id === id); }
+function inCart(id)     { return !!cartItem(id); }
+
+function addToCart(id) {
+  const item = cartItem(id);
+  if (item) { item.qty++; } else { cart.push({id, qty:1}); }
+  saveCart(); updateCartCount(); renderStock(); openCart();
+}
+
+function changeQty(id, delta) {
+  const item = cartItem(id);
+  if (!item) return;
+  item.qty += delta;
+  if (item.qty <= 0) cart = cart.filter(c => c.id !== id);
+  saveCart(); updateCartCount(); renderCartItems(); renderStock();
+}
+
+function removeFromCart(id) {
+  cart = cart.filter(c => c.id !== id);
+  saveCart(); updateCartCount(); renderCartItems(); renderStock();
+}
+
+function updateCartCount() {
+  const el = document.getElementById('cart-count');
+  const total = cart.reduce((s, c) => s + c.qty, 0);
+  if (total > 0) { el.textContent = total; el.classList.remove('hidden'); }
+  else { el.classList.add('hidden'); }
+}
+
+function openCart() {
+  renderCartItems();
+  document.getElementById('cart-overlay').classList.remove('hidden');
+  document.getElementById('cart-drawer').classList.add('open');
+  document.body.classList.add('modal-open');
+}
+
+function closeCart() {
+  document.getElementById('cart-overlay').classList.add('hidden');
+  document.getElementById('cart-drawer').classList.remove('open');
+  document.body.classList.remove('modal-open');
+}
+
+function renderCartItems() {
+  const el = document.getElementById('cart-items');
+  if (!cart.length) {
+    el.innerHTML = '<div class="text-center py-xl"><span class="material-symbols-outlined text-outline" style="font-size:48px;">shopping_cart</span><p class="text-on-surface-variant text-body-md mt-md">No animals selected yet.</p><a href="#stock" onclick="closeCart()" class="inline-block mt-md text-primary text-label-md underline">Browse Stock</a></div>';
+    document.getElementById('cart-total').textContent = 'GHS 0';
+    return;
+  }
+  el.innerHTML = cart.map(c => {
+    const a = STOCK.find(x => x.id === c.id);
+    if (!a) return '';
+    const unit = parseInt(a.price.replace(/[^\d]/g,''));
+    const sub  = (unit * c.qty).toLocaleString();
+    return `
+    <div class="bg-surface-container-low rounded-xl p-sm">
+      <div class="flex gap-sm items-start mb-sm">
+        <img class="w-16 h-16 object-cover rounded-lg flex-shrink-0" src="${a.img}" alt="${a.breed}"/>
+        <div class="flex-1 min-w-0">
+          <div class="font-display font-semibold text-primary leading-tight" style="font-size:16px;">${a.breed}</div>
+          <div class="text-label-sm text-on-surface-variant mt-xs">${a.age} · ${a.wt}</div>
+          <div class="text-label-sm text-secondary font-semibold mt-xs">${a.price} each</div>
+        </div>
+        <button onclick="removeFromCart(${a.id})" class="w-8 h-8 flex items-center justify-center text-on-surface-variant hover:text-error hover:bg-surface-container-high rounded-lg transition-colors flex-shrink-0">
+          <span class="material-symbols-outlined" style="font-size:18px;">delete</span>
+        </button>
+      </div>
+      <div class="flex items-center justify-between pt-xs border-t border-outline-variant/40">
+        <div class="flex items-center gap-xs">
+          <button onclick="changeQty(${a.id},-1)" class="w-8 h-8 flex items-center justify-center bg-surface-container-high hover:bg-outline-variant rounded-lg transition-colors">
+            <span class="material-symbols-outlined text-primary" style="font-size:18px;">remove</span>
+          </button>
+          <span class="font-display font-bold text-primary w-8 text-center" style="font-size:16px;">${c.qty}</span>
+          <button onclick="changeQty(${a.id},1)" class="w-8 h-8 flex items-center justify-center bg-surface-container-high hover:bg-outline-variant rounded-lg transition-colors">
+            <span class="material-symbols-outlined text-primary" style="font-size:18px;">add</span>
+          </button>
+        </div>
+        <div class="font-display font-bold text-primary" style="font-size:16px;">GHS ${sub}</div>
+      </div>
+    </div>`;
+  }).join('');
+  const total = cart.reduce((s, c) => {
+    const a = STOCK.find(x => x.id === c.id);
+    return a ? s + parseInt(a.price.replace(/[^\d]/g,'')) * c.qty : s;
+  }, 0);
+  document.getElementById('cart-total').textContent = 'GHS ' + total.toLocaleString();
+}
+
+function enquireCart() {
+  if (!cart.length) return;
+  const lines = cart.map(c => {
+    const a = STOCK.find(x => x.id === c.id);
+    return a ? `${c.qty}x ${a.breed}` : '';
+  }).filter(Boolean).join(', ');
+  const msg = document.querySelector('#cform textarea[name="message"]');
+  if (msg) msg.value = 'I am interested in the following: ' + lines + '. Please confirm availability and provide details.';
+  document.getElementById('cint').value = 'General Enquiry';
+  closeCart();
+  document.getElementById('contact').scrollIntoView({ behavior:'smooth' });
+}
+
+/* ── pills ── */
+function stylePills() {
+  document.querySelectorAll('.fpill').forEach(p => {
+    if (p.classList.contains('on')) {
+      p.className = 'fpill on px-md py-xs rounded-full text-label-md font-semibold border cursor-pointer transition-all pill-on';
+    } else {
+      p.className = 'fpill px-md py-xs rounded-full text-label-md font-semibold border cursor-pointer transition-all pill-off';
+    }
+  });
+}
+
+/* ── render stock grid ── */
+function renderStock() {
+  const list = STOCK.filter(a => af === 'all' || af === a.cat || af === a.bKey);
+  const grid = document.getElementById('sgrid');
+  if (!list.length) {
+    grid.innerHTML = '<div class="col-span-full text-center py-xl text-on-surface-variant text-body-md">No animals in this category right now — <a href="#contact" class="text-primary underline">contact us</a> for upcoming availability.</div>';
+    return;
+  }
+  grid.innerHTML = list.map(a => `
+    <div class="group bg-surface-container-lowest rounded-xl overflow-hidden shadow-soft hover:-translate-y-2 transition-all duration-300 border border-outline-variant/30 flex flex-col fi">
+      <div class="relative overflow-hidden" style="aspect-ratio:4/3;">
+        <img class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
+          src="${a.img}" alt="${a.name}" loading="lazy"/>
+        <div class="absolute top-sm right-sm flex flex-col gap-xs items-end">
+          ${a.tags.map(t => `<span class="bg-primary-fixed text-on-primary-fixed px-sm rounded-full font-bold uppercase tracking-wider shadow-sm" style="font-size:10px;padding-top:2px;padding-bottom:2px;">${t}</span>`).join('')}
+          <span class="text-white px-sm rounded-full font-bold uppercase tracking-wider shadow-sm" style="font-size:10px;padding-top:2px;padding-bottom:2px;background:#15803d;">${a.status === 'avail' ? 'Available' : 'Reserved'}</span>
+        </div>
+      </div>
+      <div class="p-md flex flex-col flex-1">
+        <div class="flex justify-between items-start mb-sm">
+          <h3 class="font-display font-semibold text-title-md text-primary">${a.breed}</h3>
+          <span class="font-display font-bold text-secondary" style="font-size:18px;">${a.price}</span>
+        </div>
+        <div class="grid grid-cols-2 gap-sm mb-md">
+          <div class="bg-surface-container px-sm py-xs rounded-lg">
+            <p class="text-label-sm text-on-surface-variant uppercase" style="letter-spacing:.04em;">Age</p>
+            <p class="text-label-md text-primary">${a.age}</p>
+          </div>
+          <div class="bg-surface-container px-sm py-xs rounded-lg">
+            <p class="text-label-sm text-on-surface-variant uppercase" style="letter-spacing:.04em;">Weight</p>
+            <p class="text-label-md text-primary">${a.wt}</p>
+          </div>
+        </div>
+        <div class="flex gap-sm mt-auto">
+          <button onclick="openModal(${a.id})"
+            class="flex-1 py-sm bg-primary text-on-primary rounded-lg text-label-md font-semibold font-display hover:bg-primary/90 active:scale-[0.98] transition-all">
+            View Details
+          </button>
+          ${inCart(a.id)
+            ? `<button onclick="openCart()" class="flex-1 py-sm bg-secondary text-on-secondary rounded-lg text-label-md font-semibold font-display flex items-center justify-center gap-xs active:scale-[0.98] transition-all"><span class="material-symbols-outlined" style="font-size:15px;font-variation-settings:'FILL' 1,'wght' 400,'GRAD' 0,'opsz' 24;">check_circle</span>In Cart</button>`
+            : `<button onclick="addToCart(${a.id})" class="flex-1 py-sm border border-secondary text-secondary rounded-lg text-label-md font-semibold font-display flex items-center justify-center gap-xs hover:bg-secondary-fixed/30 active:scale-[0.98] transition-all"><span class="material-symbols-outlined" style="font-size:15px;">add_shopping_cart</span>Add to Cart</button>`
+          }
+        </div>
+      </div>
+    </div>
+  `).join('');
+  observe();
+}
+
+/* ── modal ── */
+function openModal(id) {
+  const a = STOCK.find(x => x.id === id);
+  if (!a) return;
+  document.getElementById('modal-img').src  = a.img.replace('w=600', 'w=800');
+  document.getElementById('modal-img').alt  = a.breed;
+  document.getElementById('modal-breed').textContent = 'SG Afrika Farms';
+  document.getElementById('modal-name').textContent  = a.breed;
+  document.getElementById('modal-price').textContent = a.price;
+  document.getElementById('modal-sex').textContent   = a.age;
+  document.getElementById('modal-age').textContent   = a.wt;
+  document.getElementById('modal-wt').textContent    = a.status === 'avail' ? 'Available' : 'Reserved';
+  document.getElementById('modal-desc').textContent  = a.desc;
+  document.getElementById('modal-badges').innerHTML  = a.tags.map(t =>
+    `<span class="bg-primary text-on-primary px-md rounded-full text-label-sm font-semibold" style="padding-top:4px;padding-bottom:4px;">${t}</span>`
+  ).join('');
+  const aid = a.id, breed = a.breed;
+  const cartBtn = document.getElementById('modal-cart');
+  const alreadyInCart = inCart(aid);
+  cartBtn.innerHTML = alreadyInCart
+    ? '<span class="material-symbols-outlined" style="font-variation-settings:\'FILL\' 1,\'wght\' 400,\'GRAD\' 0,\'opsz\' 24;">check_circle</span> In Cart — View'
+    : '<span class="material-symbols-outlined">add_shopping_cart</span> Add to Cart';
+  cartBtn.onclick = function() {
+    if (inCart(aid)) { closeModal(); openCart(); }
+    else { addToCart(aid); closeModal(); }
+  };
+  document.getElementById('modal-enquire').onclick = function() {
+    closeModal();
+    prefill(breed);
+  };
+  document.getElementById('modal').classList.add('open');
+  document.body.classList.add('modal-open');
+}
+
+function closeModal(e) {
+  if (e && e.target !== document.getElementById('modal')) return;
+  document.getElementById('modal').classList.remove('open');
+  document.body.classList.remove('modal-open');
+}
+
+document.addEventListener('keydown', e => {
+  if (e.key === 'Escape') { closeModal(); closeCart(); }
+});
+
+/* ── breed card click ── */
+function filterBreed(key) {
+  af = key;
+  document.querySelectorAll('.fpill').forEach(p => p.classList.toggle('on', p.dataset.f === key));
+  stylePills();
+  renderStock();
+  document.getElementById('stock').scrollIntoView({ behavior:'smooth' });
+}
+
+/* ── filter pills ── */
+document.getElementById('filters').addEventListener('click', e => {
+  const pill = e.target.closest('.fpill');
+  if (!pill) return;
+  document.querySelectorAll('.fpill').forEach(p => p.classList.remove('on'));
+  pill.classList.add('on');
+  af = pill.dataset.f;
+  stylePills();
+  renderStock();
+});
+
+/* ── prefill enquiry form ── */
+function prefill(breed) {
+  const sel = document.getElementById('cint');
+  for (const o of sel.options) { if (o.value.startsWith(breed)) { sel.value = o.value; break; } }
+  document.getElementById('contact').scrollIntoView({ behavior:'smooth' });
+}
+
+/* ── form submit ── */
+function sendForm(e) {
+  e.preventDefault();
+  const btn = document.getElementById('csub');
+  btn.textContent = 'Sending…'; btn.disabled = true;
+  fetch(e.target.action, {
+    method:'POST', body:new FormData(e.target),
+    headers:{ Accept:'application/json' }
+  })
+  .then(() => { e.target.style.display='none'; document.getElementById('fthanks').classList.remove('hidden'); })
+  .catch(() => { e.target.style.display='none'; document.getElementById('fthanks').classList.remove('hidden'); });
+}
+
+/* ── nav toggle ── */
+function toggleNav() { document.getElementById('navmob').classList.toggle('hidden'); }
+function closeNav()  { document.getElementById('navmob').classList.add('hidden'); }
+
+/* ── intersection observer ── */
+const io = new IntersectionObserver(entries => {
+  entries.forEach(el => {
+    if (el.isIntersecting) { el.target.classList.add('in'); io.unobserve(el.target); }
+  });
+}, { threshold:0.06 });
+
+function observe() {
+  document.querySelectorAll('.fi:not(.in)').forEach(el => io.observe(el));
+}
+
+/* ── init ── */
+document.getElementById('fyr').textContent = '© ' + new Date().getFullYear() + ' SamGyi Afrika Farms. All rights reserved.';
+stylePills();
+renderStock();
+updateCartCount();
+observe();
+</script>
 </body>
-
 </html>
